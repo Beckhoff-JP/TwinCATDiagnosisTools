@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="sdo_watch_time_logging" Id="{9a93db3a-96b4-4a16-9fdd-1327b20ae3ba}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK sdo_watch_time_logging IMPLEMENTS ITF_CoeSdoEventHandler
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	cycle_time: ULINT;
+	datetime_string: STRING;
+	last_time :TIMESTRUCT;
+
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="lCycleTime" Id="{81d8446a-5a6d-415e-97c6-a9229c04ee7c}">
+      <Declaration><![CDATA[PROPERTY lCycleTime : ULINT]]></Declaration>
+      <Get Name="Get" Id="{09886d6e-78b8-4621-825d-a58e2e6dfe48}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[lCycleTime := cycle_time;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="sDateTime" Id="{960fd723-2b23-4e02-b285-8652285c2da8}">
+      <Declaration><![CDATA[PROPERTY sDateTime : STRING]]></Declaration>
+      <Get Name="Get" Id="{5668f501-4460-47e8-914a-57690e825ef1}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[sDateTime := datetime_string;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="sdo_data_received" Id="{3cc0f1c8-17f0-44f9-aed7-dce818bc42b9}">
+      <Declaration><![CDATA[METHOD sdo_data_received : BOOL
+VAR_INPUT
+	command : REFERENCE TO CoeSdoCommand;
+END_VAR
+VAR
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+cycle_time := SYSTEMTIME_TO_FILETIME64(command.datetime) - SYSTEMTIME_TO_FILETIME64(last_time);
+datetime_string := SYSTEMTIME_TO_ISO8601(
+	systemTime := command.datetime,
+	nBias := -540,
+	bUTC := TRUE,
+	nPrecision := 3
+);
+last_time := command.datetime;
+]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="sdo_watch_time_logging">
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="sdo_watch_time_logging.lCycleTime.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="sdo_watch_time_logging.sDateTime.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="sdo_watch_time_logging.sdo_data_received">
+      <LineId Id="21" Count="0" />
+      <LineId Id="9" Count="6" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

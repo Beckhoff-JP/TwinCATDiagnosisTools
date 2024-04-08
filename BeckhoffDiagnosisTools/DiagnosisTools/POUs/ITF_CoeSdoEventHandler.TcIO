@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="ITF_CoeSdoEventHandler" Id="{9f5e67ba-25ae-47a6-8639-2b38dbda3952}">
+    <Declaration><![CDATA[INTERFACE ITF_CoeSdoEventHandler
+]]></Declaration>
+    <Method Name="sdo_data_received" Id="{8312d44a-87f2-499b-96a9-5b5e625e4bae}">
+      <Declaration><![CDATA[METHOD sdo_data_received : BOOL
+VAR_INPUT
+	command : REFERENCE TO CoeSdoCommand;
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>
