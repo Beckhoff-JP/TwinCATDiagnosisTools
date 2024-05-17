@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="CoeSdoCommand" Id="{9de8bd5c-1e22-4de7-b35a-ce7dd7a2a582}">
+    <Declaration><![CDATA[(*
+SdoRead/WriteRequest
+*)
+TYPE CoeSdoCommand:
+STRUCT
+	sNetId				: T_AmsNetId;	// AMS Net ID of EtherCAT Master
+	nSlaveAddr			: UINT;			// EtherCAT sub device address
+	bCompleteAccess		: BOOL;			// Enable complete access
+	nSubIndex			: BYTE;			// Subindex of OD
+	nIndex				: WORD;			// Index of OD
+	pDstBuf				: PVOID;		// Pointer to data body 
+	cbBufLen			: UDINT;		// Size of data body
+	datetime			: TIMESTRUCT;	// to be recorded as received date time
+	event_handler		: ITF_CoeSdoEventHandler; // Event handler interface
+	bError				: BOOL;			// Made true if sdo communication error
+	nErrId				: UDINT;		// Set error code if sdo communication error activated
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
